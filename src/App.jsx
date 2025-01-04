@@ -27,7 +27,11 @@ function App() {
   useEffect(()=>{
     let token = localStorage.getItem("token")
     if(token){
-      axios.post(`${api_domain}/user/check-token`,{token})
+      axios.post(`${api_domain}/user/check-token`,{token},{
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+      })
       .then(res =>{
         getTask()
       })
@@ -54,8 +58,12 @@ function App() {
   // Adding new Task
   const formSubmitHandler = (event)=>{
     event.preventDefault()
-    let token = localStorage.getItem("token")
-    axios.post(api_domain,{task : taskInput , token : token})
+    let token = localStorage.getItem('token')
+    axios.post(api_domain,{task : taskInput , token : token},{
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+    })
     .then(res =>{
       setTaskInput("")
       getTask()
